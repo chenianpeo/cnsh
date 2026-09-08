@@ -1,0 +1,8 @@
+[package]
+name = "cnsh"
+version = "0.0.1"
+authors = ["Ian Chen <chenianpeo@163.com>"]
+edition = "2024"
+rust-version = "1.100"
+
+[dependencies]
