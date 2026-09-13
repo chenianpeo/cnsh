@@ -1,0 +1,3 @@
+welcome to cnsh!
+
+command: cnsh [options] [args]
