@@ -6,7 +6,6 @@ use crate::common::Color;
 pub enum Error {
     Arg(String),
     Io(io::Error),
-    Option(String),
 
     // develop stage error
     Unfinished,
@@ -29,10 +28,6 @@ impl std::fmt::Display for Error {
                 write!(f, "{}", err)
             }
             Error::Io(err) => {
-                let err = format!("[ERROR] {}", err).red();
-                write!(f, "{}", err)
-            }
-            Error::Option(err) => {
                 let err = format!("[ERROR] {}", err).red();
                 write!(f, "{}", err)
             }
