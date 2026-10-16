@@ -10,20 +10,3 @@ pub fn line_editor() -> Result<String, Error> {
     // Trim end remove line buffer end switch line symbol
     Ok(line_buffer.trim_end().to_string())
 }
-
-#[derive(Debug)]
-#[warn(unused)]
-pub enum EditorKey {
-    Enter,
-
-    Char(char),
-
-    Ctrl(char),
-    Tab,
-    Esc,
-
-    Left,
-    Right,
-    Up,
-    Down,
-}

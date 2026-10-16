@@ -2,6 +2,7 @@ use crate::{
     cli::{ExecMode, cli},
     editor::line_editor,
     error::Error,
+    lexer::lex,
 };
 
 pub fn run() -> Result<(), Error> {
@@ -41,7 +42,9 @@ pub fn execute(exec_mode: ExecMode) -> Result<(), Error> {
                 break;
             }
 
-            println!("{}", repl_cli);
+            let lex_rst = lex(&repl_cli)?;
+
+            println!("{:?}", lex_rst);
         },
 
         ExecMode::Script(script_cli) => {
