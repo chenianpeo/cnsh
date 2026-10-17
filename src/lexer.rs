@@ -44,7 +44,7 @@ pub fn lex(source: &str) -> Result<Vec<Token>, Error> {
     Ok(tokens)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Token {
     Word(String),
     Pipe,

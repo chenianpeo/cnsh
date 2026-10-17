@@ -3,6 +3,7 @@ use crate::{
     editor::line_editor,
     error::Error,
     lexer::lex,
+    parser::Parser,
 };
 
 pub fn run() -> Result<(), Error> {
@@ -43,8 +44,9 @@ pub fn execute(exec_mode: ExecMode) -> Result<(), Error> {
             }
 
             let lex_rst = lex(&repl_cli)?;
+            let parser = Parser::new(lex_rst).parse_command()?;
 
-            println!("{:?}", lex_rst);
+            println!("{:#?}", parser);
         },
 
         ExecMode::Script(script_cli) => {

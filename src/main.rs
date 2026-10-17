@@ -5,6 +5,7 @@ mod common;
 mod editor;
 mod error;
 mod lexer;
+mod parser;
 mod run;
 
 use crate::run::run;
