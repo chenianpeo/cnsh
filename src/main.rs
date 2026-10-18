@@ -4,6 +4,7 @@ mod cli;
 mod common;
 mod editor;
 mod error;
+mod executor;
 mod lexer;
 mod parser;
 mod run;

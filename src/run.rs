@@ -2,6 +2,7 @@ use crate::{
     cli::{ExecMode, cli},
     editor::line_editor,
     error::Error,
+    executor::Executor,
     lexer::lex,
     parser::Parser,
 };
@@ -46,7 +47,10 @@ pub fn execute(exec_mode: ExecMode) -> Result<(), Error> {
             let lex_rst = lex(&repl_cli)?;
             let parser = Parser::new(lex_rst).parse_command()?;
 
+            let exec_rst = parser.exec()?;
+            println!("-------------------- Details --------------------");
             println!("{:#?}", parser);
+            println!("EXITCODE: {exec_rst}");
         },
 
         ExecMode::Script(script_cli) => {

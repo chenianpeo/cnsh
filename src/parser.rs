@@ -5,13 +5,13 @@ use crate::{
 
 #[derive(Debug)]
 pub struct Command {
-    procedure: String,
-    arguments: Vec<String>,
+    pub procedure: String,
+    pub arguments: Vec<String>,
 }
 
 #[derive(Debug)]
 pub struct Pipeline {
-    commands: Vec<Command>,
+    pub commands: Vec<Command>,
 }
 
 pub struct Parser {
