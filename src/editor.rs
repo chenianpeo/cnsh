@@ -1,8 +1,8 @@
-use crate::error::Error;
+use crate::{common::Color, error::Error};
 use std::io::{self, Write};
 
 pub fn line_editor() -> Result<String, Error> {
-    print!("cnsh> ");
+    print!("{}", "cnsh> ".green());
     io::stdout().flush()?;
 
     let mut line_buffer = String::new();
