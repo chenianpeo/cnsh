@@ -8,7 +8,7 @@ pub trait Color: Display {
     fn red(&self) -> String {
         self.color(31)
     }
-    fn green(&self) -> String {
+    fn _green(&self) -> String {
         self.color(32)
     }
     fn _yellow(&self) -> String {

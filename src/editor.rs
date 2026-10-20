@@ -1,12 +1,17 @@
-use crate::{common::Color, error::Error};
-use std::io::{self, Write};
+use crate::error::Error;
+use std::{
+    fs::{OpenOptions, create_dir_all},
+    io::{self, BufWriter, Write},
+    path::PathBuf,
+};
 
 pub fn line_editor() -> Result<String, Error> {
-    print!("{}", "cnsh> ".green());
+    print!("CNSH> ");
     io::stdout().flush()?;
 
     let mut line_buffer = String::new();
     io::stdin().read_line(&mut line_buffer)?;
+
     // Trim end remove line buffer end switch line symbol
     let exec_args = line_buffer.trim_end().to_string();
 
@@ -16,7 +21,7 @@ pub fn line_editor() -> Result<String, Error> {
 }
 
 #[cfg(target_os = "linux")]
-fn commands_history(line_args: &str) -> Result<(), Error> {
+fn commands_history(line_command: &str) -> Result<(), Error> {
     use std::{
         fs::{OpenOptions, create_dir_all},
         io::BufWriter,
@@ -30,21 +35,36 @@ fn commands_history(line_args: &str) -> Result<(), Error> {
     };
 
     let cnsh_path = PathBuf::from(home).join(".cnsh");
-    create_dir_all(&cnsh_path)?;
-
-    let history_path = cnsh_path.join("history.txt");
-
-    // modify file open mode
-    let history_file = OpenOptions::new()
-        .create(true) // auto create
-        .append(true) // append content, not delete history
-        .open(history_path)?;
-
-    let mut history_buf = BufWriter::new(history_file);
-    writeln!(history_buf, "{line_args}")?;
+    history_writer(cnsh_path, line_command)?;
 
     Ok(())
 }
 
-// todo
-// windows history
+#[cfg(target_os = "windows")]
+fn commands_history(line_command: &str) -> Result<(), Error> {
+    let local_app_data = std::env::var("LOCALAPPDATA").map_err(|_| Error::Unfinished)?;
+
+    let cnsh_path = PathBuf::from(local_app_data).join("cnsh");
+    history_writer(cnsh_path, line_command)?;
+
+    Ok(())
+}
+
+fn history_writer(path: PathBuf, line_command: &str) -> Result<(), Error> {
+    create_dir_all(&path)?;
+    let history_path = path.join("history.txt");
+
+    // modify file open options
+    let history_file = OpenOptions::new()
+        .create(true) // auto create file if not exist
+        .append(true) // append content, not delete history
+        .open(history_path)?;
+
+    let mut history_buf = BufWriter::new(history_file);
+    writeln!(history_buf, "{line_command}")?;
+
+    // instantly obtain commands and write to low-level
+    history_buf.flush()?;
+
+    Ok(())
+}
