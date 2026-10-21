@@ -5,6 +5,7 @@ mod common;
 mod editor;
 mod error;
 mod executor;
+mod init;
 mod lexer;
 mod parser;
 mod run;

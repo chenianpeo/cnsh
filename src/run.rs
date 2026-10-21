@@ -3,11 +3,15 @@ use crate::{
     editor::line_editor,
     error::Error,
     executor::Executor,
+    init,
     lexer::lex,
     parser::Parser,
 };
 
 pub fn run() -> Result<(), Error> {
+    // init procedure data
+    init::InitData::initialize()?;
+
     // Parse external commands arguments
     // split to four run mode: exec, real eval print loop, script, special
     //
