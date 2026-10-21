@@ -22,11 +22,7 @@ pub fn line_editor() -> Result<String, Error> {
 
 #[cfg(target_os = "linux")]
 fn commands_history(line_command: &str) -> Result<(), Error> {
-    use std::{
-        fs::{OpenOptions, create_dir_all},
-        io::BufWriter,
-        path::PathBuf,
-    };
+    use std::path::PathBuf;
 
     // obtain main directory environment variable
     let home = match std::env::var("HOME") {

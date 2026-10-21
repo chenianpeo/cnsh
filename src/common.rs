@@ -1,4 +1,5 @@
-// render
+// # this is public function module
+
 use std::fmt::Display;
 
 pub trait Color: Display {
