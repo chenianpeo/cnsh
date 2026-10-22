@@ -24,7 +24,7 @@ pub struct ShellEnv {
 
 impl ShellEnv {
     #[cfg(target_os = "linux")]
-    fn load() -> Result<Self, Error> {
+    pub fn load() -> Result<Self, Error> {
         let current_dir = env::current_dir()?;
 
         let home_dir = env::home_dir().ok_or(Error::Unfinished)?;

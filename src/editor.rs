@@ -22,16 +22,9 @@ pub fn line_editor() -> Result<String, Error> {
 
 #[cfg(target_os = "linux")]
 fn commands_history(line_command: &str) -> Result<(), Error> {
-    use std::path::PathBuf;
+    use crate::init::ShellEnv;
 
-    // obtain main directory environment variable
-    let home = match std::env::var("HOME") {
-        Ok(home) => home,
-        Err(_) => return Err(Error::Unfinished),
-    };
-
-    let cnsh_path = PathBuf::from(home).join(".cnsh");
-    history_writer(cnsh_path, line_command)?;
+    history_writer(ShellEnv::load()?.data_dir, line_command)?;
 
     Ok(())
 }
