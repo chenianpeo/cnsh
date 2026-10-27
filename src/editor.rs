@@ -22,7 +22,7 @@ pub fn line_editor() -> Result<String, Error> {
 
 #[cfg(target_os = "linux")]
 fn commands_history(line_command: &str) -> Result<(), Error> {
-    use crate::init::ShellEnv;
+    use crate::init::Env;
 
     history_writer(ShellEnv::load()?.data_dir, line_command)?;
 

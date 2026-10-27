@@ -2,27 +2,28 @@ use std::{env, fs::create_dir_all, path::PathBuf};
 
 use crate::error::Error;
 
+// Initialize procedure data
 #[derive(Debug)]
 pub struct InitData {
-    pub env: ShellEnv,
+    pub env: Env,
 }
 
 impl InitData {
     pub fn initialize() -> Result<Self, Error> {
-        let env = ShellEnv::load()?;
+        let env = Env::load()?;
 
         Ok(Self { env })
     }
 }
 
 #[derive(Debug)]
-pub struct ShellEnv {
+pub struct Env {
     pub current_dir: PathBuf,
     pub home_dir: PathBuf,
     pub data_dir: PathBuf,
 }
 
-impl ShellEnv {
+impl Env {
     #[cfg(target_os = "linux")]
     pub fn load() -> Result<Self, Error> {
         let current_dir = env::current_dir()?;
