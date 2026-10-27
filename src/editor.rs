@@ -5,6 +5,8 @@ use std::{
     path::PathBuf,
 };
 
+use crate::init::Env;
+
 pub fn line_editor() -> Result<String, Error> {
     print!("CNSH> ");
     io::stdout().flush()?;
@@ -22,19 +24,14 @@ pub fn line_editor() -> Result<String, Error> {
 
 #[cfg(target_os = "linux")]
 fn commands_history(line_command: &str) -> Result<(), Error> {
-    use crate::init::Env;
-
-    history_writer(ShellEnv::load()?.data_dir, line_command)?;
+    history_writer(Env::load()?.data_dir, line_command)?;
 
     Ok(())
 }
 
 #[cfg(target_os = "windows")]
 fn commands_history(line_command: &str) -> Result<(), Error> {
-    let local_app_data = std::env::var("LOCALAPPDATA").map_err(|_| Error::Unfinished)?;
-
-    let cnsh_path = PathBuf::from(local_app_data).join("cnsh");
-    history_writer(cnsh_path, line_command)?;
+    history_writer(Env::load()?.data_dir, line_command)?;
 
     Ok(())
 }
@@ -43,16 +40,14 @@ fn history_writer(path: PathBuf, line_command: &str) -> Result<(), Error> {
     create_dir_all(&path)?;
     let history_path = path.join("history.txt");
 
-    // modify file open options
     let history_file = OpenOptions::new()
-        .create(true) // auto create file if not exist
-        .append(true) // append content, not delete history
+        .create(true)
+        .append(true) // add content into file last
         .open(history_path)?;
 
     let mut history_buf = BufWriter::new(history_file);
     writeln!(history_buf, "{line_command}")?;
 
-    // instantly obtain commands and write to low-level
     history_buf.flush()?;
 
     Ok(())

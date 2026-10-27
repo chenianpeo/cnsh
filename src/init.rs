@@ -41,7 +41,7 @@ impl Env {
     }
 
     #[cfg(target_os = "windows")]
-    fn load() -> Result<Self, Error> {
+    pub fn load() -> Result<Self, Error> {
         let current_dir = env::current_dir()?;
 
         let home_path = std::env::var("LOCALAPPDATA").map_err(|_| Error::Unfinished)?;
