@@ -7,12 +7,16 @@ mod error;
 mod executor;
 mod init;
 mod lexer;
+mod log;
 mod parser;
 mod run;
 
-use crate::run::run;
+use crate::{log::LogLevel::Debug, run::run};
 
 fn main() -> ExitCode {
+    let logger = log::Logger::new(Debug);
+    logger.info("cnsh", "start to running procedure");
+
     match run() {
         Ok(_) => ExitCode::from(0),
         Err(err) => {
