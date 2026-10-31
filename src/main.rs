@@ -11,10 +11,10 @@ mod log;
 mod parser;
 mod run;
 
-use crate::{log::LogLevel::Debug, run::run};
+use crate::run::run;
 
 fn main() -> ExitCode {
-    let logger = log::Logger::new(Debug);
+    let logger = log::Logger::new();
     logger.info("cnsh", "start to running procedure");
 
     match run() {

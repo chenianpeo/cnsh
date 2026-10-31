@@ -24,13 +24,11 @@ impl LogLevel {
     }
 }
 
-pub struct Logger {
-    max_level: LogLevel,
-}
+pub struct Logger {}
 
 impl Logger {
-    pub fn new(max_level: LogLevel) -> Self {
-        Self { max_level }
+    pub fn new() -> Self {
+        Self {}
     }
 
     fn log(&self, max_level: LogLevel, module: &str, message: &str) {
