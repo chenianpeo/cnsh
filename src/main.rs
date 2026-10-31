@@ -20,6 +20,7 @@ fn main() -> ExitCode {
     match run() {
         Ok(_) => ExitCode::from(0),
         Err(err) => {
+            logger.error("cnsh", &err.to_string());
             eprintln!("{}", err);
             ExitCode::from(2)
         }
