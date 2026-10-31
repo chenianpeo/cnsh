@@ -77,7 +77,7 @@ fn log_writer(time: &str, log_level: LogLevel, module: &str, message: &str) -> R
 
     let data_path = Env::load()?.data_dir;
     create_dir_all(&data_path)?;
-    let log_path = data_path.join("log.txt");
+    let log_path = data_path.join("procedure.log");
 
     let log_file = OpenOptions::new()
         .create(true)
